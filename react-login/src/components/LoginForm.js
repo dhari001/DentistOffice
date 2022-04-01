@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
 import {Button, Form, Header, Image} from "semantic-ui-react";
 
+const options = [
+    {key: 'e', text: 'Employee', value: 'EMPLOYEE'},
+    {key: 'p', text: 'Patient', value: 'PATIENT'},
+    {key: 'r', text: 'Responsible Party', value: 'RESPONSIBLE_PARTY'}
+]
+
 function LoginForm({Login, error}){
     const[details, setDetails] = useState({username: "", password: "", role: ""});
     const submitHandler = e => {
@@ -22,15 +28,17 @@ function LoginForm({Login, error}){
                     onChange={e => setDetails({...details, username: e.target.value})} value={details.username}>
                 </input>
             </Form.Field>
-            <Form.Field>
-                <label>Role</label>
-                <input
-                    type="text"
-                    name="role"
-                    id="role"
-                    onChange={e => setDetails({...details, role: e.target.value})} value={details.role}>
-                </input>
-            </Form.Field>
+            <Form.Select
+                fluid
+                label='Role'
+                id='role'
+                options={options}
+                placeholder='Role'
+                onChange={(e, data) => setDetails({...details, role: data.value})}
+                value={details.role}
+            />
+
+
             <Form.Field>
                 <label>Password</label>
                 <input
