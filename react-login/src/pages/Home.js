@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import LoginForm from "../components/LoginForm";
+import {Segment} from "semantic-ui-react";
 
 
 function Home() {
@@ -39,7 +40,9 @@ function Home() {
                     <h2>Welcome <span>{user.username}</span></h2> <button onClick={Logout}>Logout</button> </div>
                 </>
             ): (
-                <LoginForm Login={Login} error={error}/>
+                <Segment raised>
+                    <LoginForm Login={Login} error={error}/>
+                </Segment>
             )}
         </div>
     );
