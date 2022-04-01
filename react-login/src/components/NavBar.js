@@ -36,6 +36,14 @@ export default class NavBar extends Component {
             >
                 Receptionist
             </Menu.Item>
+            <Menu.Item
+                name='upcomingEvents'
+                active={activeItem === 'upcomingEvents'}
+                onClick={this.handleItemClick}
+                link='true' href='/patient'
+            >
+                Patient
+            </Menu.Item>
 
             <Menu.Item
                 name='upcomingEvents'
