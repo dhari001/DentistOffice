@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import LoginForm from "../components/LoginForm";
 import {Segment} from "semantic-ui-react";
 import axios from 'axios';
-
+import {ROLE} from './enum'
 
 function Home() {
     /*const AdminUser = {
@@ -16,21 +16,17 @@ function Home() {
     
 
     const Login = details => {
-        enum ROLE {
-            PATIENT = 1,
-            EMPLOYEE = 2,
-            RESPONSIBLE_PARTY = 3
-        }
+       
         var un = details.username;
         var pwd = details.password;
         var r;
         if(details.role == 'Patient'){
-            r = ROLE[1]
+            r = ROLE.PATIENT
         } else if(details.role == "Employee"){
-            r = ROLE[2]
+            r = ROLE.EMPLOYEE
         }
         else if(details.role == "Responsible Party"){
-            r = ROLE[3]
+            r = ROLE.RESPONSIBLE_PARTY
         }
         
         let res = axios.post('http://localhost:8080/profile/authenticate',{username: un, password: pwd,  role: r});
@@ -45,6 +41,7 @@ function Home() {
             setError("Login Details Are Not Correct")
             loggedIn = false;
             console.log("Login Details Are Incorrect")
+            console.log(res.data)
         }
 
     }
