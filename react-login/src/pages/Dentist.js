@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import axios from "axios";
+import {List} from "semantic-ui-react";
 
 export default class Dentist extends Component {
     state = {
@@ -19,6 +20,9 @@ export default class Dentist extends Component {
     render() {
         return (
             <div className="Receptionist">
+                <List>
+                    {this.state.persons.map(person => <List.Item>{person.firstName}</List.Item>)}
+                </List>
                 <ul>
                     {
                         this.state.persons
