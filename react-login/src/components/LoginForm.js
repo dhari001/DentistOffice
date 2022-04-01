@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Form, Image} from "semantic-ui-react";
 
 function LoginForm({Login, error}){
     const[details, setDetails] = useState({username: "", email: "", password: ""});
@@ -9,7 +10,7 @@ function LoginForm({Login, error}){
     }
 
     return (
-        <form onSubmit={submitHandler}>
+        <Form onSubmit={submitHandler}>
             <div className="form-inner">
                 <h2>Login</h2>
                 {(error != "") ? (<div className="error">{error}</div>) : ""}
@@ -28,7 +29,7 @@ function LoginForm({Login, error}){
                 <input type="submit" value="LOGIN"></input>
 
             </div>
-        </form>
+        </Form>
 
     )    
 
