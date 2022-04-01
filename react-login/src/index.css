@@ -112,22 +112,31 @@ form .form-inner input[type="submit"],
   background-position: 100% 0%;
 }
 
-.Welcome{
-  width: 100%;
-  max-width: 490px;
-  background-color: var(--color-white);
-  padding: 15px 30px;
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333333;
+  text-align: top;
+  margin-top: -270px;
 }
 
-.Welcome h2{
-  color: var(--color-black);
-  font-size: 29px;
-  font-weight: 500;
-  margin-bottom: 30px;
+li {
+  float: left;
+  text-align: top;
 }
 
-.Welcome h2 span{
-  color: var(--color-green);
-  font-weight: 700;
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
 }
 
+li a:hover {
+  background-color: #111111;
+}

@@ -1,8 +1,8 @@
 import {Naviagte, Outlet} from 'react-router';
-//import {loggedIn} from './App';
+import {loggedIn} from './App';
 
 const useAuth = () => {
-    const user = {loggedIn: false};
+    const user = {loggedIn};
     return user && user.loggedIn;
 };
 

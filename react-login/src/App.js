@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import LoginForm from './components/LoginForm';
 import {Link} from "react-router-dom";
+import Welcome from './Welcome';
+
 
 
 function App() {
@@ -32,13 +34,10 @@ function App() {
     loggedIn = false;
   }
 
-
   return (
     <div className="App">
-      {(user.email != "") ? (
-        <><div className="Welcome">
-          <h2>Welcome <span>{user.username}</span></h2> <button onClick={Logout}>Logout</button> </div>
-         </>
+     {(user.email != "") ? (
+       <Welcome />
       ): (
         <LoginForm Login={Login} error={error}/>
       )}
@@ -47,3 +46,4 @@ function App() {
 }
 
 export default App;
+
