@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Form, Header, Image} from "semantic-ui-react";
 
 function LoginForm({Login, error}){
-    const[details, setDetails] = useState({username: "", email: "", password: ""});
+    const[details, setDetails] = useState({username: "", password: "", role: ""});
     const submitHandler = e => {
         e.preventDefault();
         Login(details);
@@ -23,12 +23,12 @@ function LoginForm({Login, error}){
                 </input>
             </Form.Field>
             <Form.Field>
-                <label>Email</label>
+                <label>Role</label>
                 <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    onChange={e => setDetails({...details, email: e.target.value})} value={details.email}>
+                    type="text"
+                    name="role"
+                    id="role"
+                    onChange={e => setDetails({...details, role: e.target.value})} value={details.role}>
                 </input>
             </Form.Field>
             <Form.Field>
