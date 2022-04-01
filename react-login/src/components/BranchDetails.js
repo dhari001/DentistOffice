@@ -22,7 +22,7 @@ const BranchDetails = () => {
 
     return (
         <>
-            <Header>{branch.address_id}</Header>
+            <Header>This is branch with address {branch.address_id}</Header>
 
         </>
     );

@@ -22,7 +22,7 @@ const BranchDirectory = () => {
 
     return (
         <>
-            <Header>Branch Directory</Header>
+            <Header size ='huge'>Branch Directory</Header>
             {branches.map((el) => (
                 <article key={el.id}>
                     <Link to={`/branch/${el.id}`}>
