@@ -1,41 +1,48 @@
 import React, {useState} from 'react';
 import LoginForm from "../components/LoginForm";
 import {Segment} from "semantic-ui-react";
-
+import axios from 'axios';
 
 function Home() {
-    const AdminUser = {
-        email: "admin@admin.ca",
-        password: "admin"
-    }
 
-
-    var [loggedIn] = useState(false);
-    const [user, setUser] = useState({username: "", email: ""})
+    const [user, setUser] = useState({username: "", role: ""})
     const [error, setError] = useState("")
+    const [success, setSuccess] = useState(false);
+    
+
     const Login = details => {
-        if(details.email == AdminUser.email && details.password == AdminUser.password){
-            console.log("Login");
-            setUser({
-                username: details.username,
-                email: details.email
+       
+        var un = details.username;
+        var pwd = details.password;
+        var r = details.role;
+        let res =axios.post('http://localhost:8080/profile/authenticate',{username: un, password: pwd,  role: r})
+            .then(res => {
+                console.log(res.data);
+                setUser({
+                    username: details.username,
+                    role: details.role
+                });
+                setSuccess(true)
+
+            }).catch(function (e){
+                setError("Login Details Are Not Correct")
+                console.log("Login Details Are Incorrect")
+                console.log(res.data) 
+                setSuccess(false)
             });
-            loggedIn = true;
-            console.log(loggedIn);
-        } else{
-            setError("Login Details Are Not Correct")
-        }
 
     }
     const Logout = () => {
-        setUser({username: "", email: ""});
-        loggedIn = false;
+        setUser({username: "", role: ""});
+        setSuccess(false)
     }
+
+    
 
 
     return (
         <div className="Home">
-            {(user.email != "") ? (
+            {(success) ? (
                 <><div className="Welcome">
                     <h2>Welcome <span>{user.username}</span></h2> <button onClick={Logout}>Logout</button> </div>
                 </>
