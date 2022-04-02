@@ -15,49 +15,20 @@ function Home() {
         var un = details.username;
         var pwd = details.password;
         var r = details.role;
-        axios.post('http://localhost:8080/profile/authenticate',{username: un, password: pwd,  role: r})
-        .then (res => {
-            console.log(res.data) 
-            /*bool = res.data;
-            console.log(bool)*/
-        }).catch(function (e){
-            setError("Login Details Are Not Correct")
-            console.log("Login Details Are Incorrect")
-            console.log(e)
-            console.log("PRINT SUCCESS : " +success.toString())
-        });
-        if(bool){
-            console.log("THE DATA IS CORRECT: " + bool)
-            setUser({
-                username: details.username,
-                role: details.role
-            });
-            setSuccess(true)
-            console.log("THE LOG IN WAS SUCCESSFUL: " +success.toString())
-        } else{
-            setSuccess(false)
-            console.log("THE DATA IS CORRECT: " + bool)
-            console.log("THE LOG IN WAS SUCCESSFUL: " +success.toString())
-        }
-        /*axios.post('http://localhost:8080/profile/authenticate',{username: un, password: pwd,  role: r})
-            .then(res => {
-                //console.log(res.data);
-                    setUser({
-                        username: details.username,
-                        role: details.role
-                    });
-                    setSuccess(true)
-                console.log("PRINT SUCCESS HA: "+success.toString())
-                
-            }).catch(function (e){
-                setError("Login Details Are Not Correct")
-                console.log("Login Details Are Incorrect")
-                console.log("BLAH")
-                //console.log(res.data) 
+        console.log(un)
+        console.log(pwd)
+        console.log(r)
+       axios.post('http://localhost:8080/profile/authenticate',{username: un, password: pwd,  role: r})
+        .then(res => {
+            if(res.data){
+                setSuccess(true)
+                console.log(res.data)
+            } else{
                 setSuccess(false)
-                console.log("BLAH")
-                console.log("PRINT SUCCESS : " +success.toString())
-            });*/
+                console.log(res.data)
+                setError("LogIn Details Are Not Correct")
+            }
+        });
     }
     const Logout = () => {
         setUser({username: "", role: ""});
