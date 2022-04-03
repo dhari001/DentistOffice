@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom"
 import axios from 'axios'
-import {Header, Rating, Segment, Comment} from "semantic-ui-react";
+import {Header, Rating, Segment, Comment, List, Icon} from "semantic-ui-react";
 
 const BranchReview = () => {
     const {id} = useParams();
@@ -31,13 +31,74 @@ const BranchReview = () => {
         return (prettyString)
     }
 
+    const averageProfessionalism = () => {
+        let profAvg = 0.0;
+        for (let r in reviews) {
+            profAvg += reviews[r].professionalism;
+        }
+        profAvg /= reviews.length;
+        profAvg = Math.floor(profAvg);
+        return profAvg;
+    }
+
+    const averageCleanliness = () => {
+        let cleanAvg = 0.0;
+        for (let r in reviews) {
+            cleanAvg += reviews[r].cleanliness;
+        }
+        cleanAvg /= reviews.length;
+        cleanAvg = Math.floor(cleanAvg);
+        return cleanAvg;
+    }
+
+    const averageCommunication = () => {
+        let comAvg = 0.0;
+        for (let r in reviews) {
+            comAvg += reviews[r].communication;
+        }
+        comAvg /= reviews.length;
+        comAvg = Math.floor(comAvg);
+        console.log(comAvg)
+        return comAvg;
+    }
+
+    const averageValue = () => {
+        let valAvg = 0.0;
+        for (let r in reviews) {
+            valAvg += reviews[r].value;
+        }
+        valAvg /= reviews.length;
+        valAvg = Math.floor(valAvg);
+        console.log(valAvg)
+        return valAvg;
+    }
+
+
     return (
         <Segment>
             <Header>Rating</Header>
-            <Header size="small">Professionalism</Header> <Rating maxRating={5}/>
-            Communication
-            Cleanliness
-            {id}
+            <List divided verticalAlign='middle'>
+                <List.Item>
+                    <List.Content floated='right'><Rating maxRating={5}/></List.Content>
+                    <List.Icon name='handshake outline'/>
+                    <List.Content>Professionalism</List.Content>
+                </List.Item>
+                <List.Item>
+                    <List.Content floated='right'><Rating maxRating={5}/></List.Content>
+                    <List.Icon name='talk'/>
+                    <List.Content>Communication</List.Content>
+                </List.Item>
+                <List.Item>
+                    <List.Content floated='right'><Rating maxRating={5}/></List.Content>
+                    <List.Icon name='paper plane outline'/>
+                    <List.Content>Cleanliness</List.Content>
+                </List.Item>
+                <List.Item>
+                    <List.Content floated='right'><Rating maxRating={5}/></List.Content>
+                    <List.Icon name='dollar sign'/>
+                    <List.Content>Value</List.Content>
+                </List.Item>
+            </List>
 
             <Comment.Group>
                 <Header size="small" dividing>Reviews</Header>
