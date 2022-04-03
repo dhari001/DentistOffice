@@ -39,14 +39,14 @@ function AppointmentForm({AddApp, error}){
         id='startT'
         control={Input}
         label="Start Time"
-        placeholder='YYYY-MM-DD 00:00:00'
+        placeholder='YYYY-MM-DD, 00:00 a.m.' 
         onChange={e => setDetails({...details, startT: e.target.value})} value={details.startT}
       />
        <Form.Field
         id='endT'
         control={Input}
         label="End Time"
-        placeholder='YYYY-MM-DD 00:00:00'
+        placeholder='YYYY-MM-DD, 00:00 p.m.'
         onChange={e => setDetails({...details, endT: e.target.value})} value={details.endT}
       />
       </Form.Group>

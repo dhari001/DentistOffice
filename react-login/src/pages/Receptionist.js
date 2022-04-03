@@ -4,8 +4,20 @@ import AppointmentForm from '../components/AppointmentForm';
 import {Segment} from "semantic-ui-react";
 
 function Receptionist() {
+   
+    //SCHEDULE
+    /*const getSchedule =() => {
+        axios.get("http://localhost:8080/appointment/findAll")
+        .then(res => {
+            scheduleList = res.data
+        })
 
-
+    }*/
+    /*axios.get("http://localhost:8080/appointment/findAll")
+        .then(res => {
+            scheduleList = res.data
+            console.log(scheduleList)
+        })*/
 
 
     //APPOINTMENT
@@ -15,7 +27,7 @@ function Receptionist() {
 
     const AddApp = details =>{
 
-        axios.post('http://localhost:8080/appointment/create', {id: 2, startTime: "2022-04-02T22:26:53.044Z", endTime: "2022-04-02T22:26:53.044Z", type: 1, status: 5, room: "R10", branchId: "B_1", employeeId: "P_2", patientId: "P_6"})
+        axios.post("http://localhost:8080/appointment/create", {id: 7, startTime: "2022-10-26, 10:00 a.m.", endTime: "2022-10-26, 11:00 a.m.", type: 1, status: 5, room: "R10", branchId: "B_1", employeeId: "P_2", patientId: "P_6"})
         .then(res => {
             console.log(res)
             /*if(res.AxiosResponse == 200){
@@ -36,6 +48,7 @@ function Receptionist() {
     return (
 
         <div className="Receptionist">
+            
             {(success) ? (
                 <div className="Stay">
                     <h1>Form Submitted</h1>
@@ -44,9 +57,11 @@ function Receptionist() {
                 <Segment raised>
                     <AppointmentForm AddApp={AddApp} error={error}/>
                 </Segment>
-            )}            
+            )}         
         </div>
+        
     );
 }
+
 
 export default Receptionist;

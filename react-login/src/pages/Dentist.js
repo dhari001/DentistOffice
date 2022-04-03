@@ -1,32 +1,31 @@
 import React, {Component} from 'react'
 import axios from "axios";
 
-export default class Dentist extends Component {
-    state = {
-        persons: []
-    }
+function Dentist (){
 
-    componentDidMount() {
+    //var scheduleList = []
 
-        axios.get('http://localhost:8080/profile/findAll')
-            .then(res => {
-                const persons = res.data;
-                this.setState({persons});
-                console.log(this.state.persons)
-            })
-    }
+    /*const [sched, getSched] = useState("")
 
-    render() {
+     
+        const scheduleList =  () => axios.get("http://localhost:8080/appointment/findAll")
+        .then(res => {
+            const allSched = res.data
+        }).catch(function error(e){
+
+        });
+
+    */
+
         return (
-            <div className="Receptionist">
-                <ul>
-                    {
-                        this.state.persons
-                        .map(person => <li key = {person.id}>{person.firstName}</li>)
-                    }
-                </ul>
+            <div className="Dentist">
+               
+
+                
             </div>
         );
-    }
+
 
 }
+
+export default Dentist;
