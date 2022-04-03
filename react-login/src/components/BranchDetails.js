@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
-import {Header, Image, Grid} from 'semantic-ui-react'
+import {Header, Image, Grid, Rating, Segment} from 'semantic-ui-react'
 import axios from 'axios'
+import BranchReview from './BranchReview'
 
 const dentistPic = 'https://lipsondentalgroup.com/wp-content/uploads/staff-1-600x598-1.jpg'
 
@@ -33,14 +34,15 @@ const BranchDetails = () => {
     return (
             <Grid>
                 <Grid.Row>
-                    <Header>{profile.lastName} Family Dental</Header>
+                    <Header size="huge">{profile.lastName} Family Dental</Header>
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column width={6}>
-                        <Image size="huge" src={dentistPic}/>
+                        <Image bordered src={dentistPic}/>
                     </Grid.Column>
                     <Grid.Column width={6}>
                         <Header>This is branch with address {address.buildingNumber} {address.street}</Header>
+                        <BranchReview id={id}/>
                     </Grid.Column>
                 </Grid.Row>
         </Grid>
