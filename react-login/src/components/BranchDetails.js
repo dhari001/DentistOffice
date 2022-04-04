@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import {Header, Image, Grid, Rating, Segment, List} from 'semantic-ui-react'
 import axios from 'axios'
 import BranchReview from './BranchReview'
+import BranchProcedures from "./BranchProcedures";
 
 const dentistPic = 'https://lipsondentalgroup.com/wp-content/uploads/staff-1-600x598-1.jpg'
 
@@ -77,6 +78,7 @@ const BranchDetails = () => {
                         </List>
 
                         <Header>Procedures</Header>
+                        <BranchProcedures id={id}/>
 
 
                         <BranchReview id={id}/>

@@ -30,7 +30,7 @@ const BranchReview = () => {
 
     useEffect(() => {
         fetchReviews();
-        fetchReviewAverages()
+        fetchReviewAverages();
 
     }, []);
 
