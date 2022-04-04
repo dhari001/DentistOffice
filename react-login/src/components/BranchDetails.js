@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
-import {Header, Image, Grid, Rating, Segment} from 'semantic-ui-react'
+import {Header, Image, Grid, Rating, Segment, List} from 'semantic-ui-react'
 import axios from 'axios'
 import BranchReview from './BranchReview'
 
@@ -14,6 +14,7 @@ const BranchDetails = () => {
     const[branch, SetBranch] = useState({});
     const[profile, SetProfile] = useState({});
     const[address, SetAddress] = useState({});
+    const[dentists, SetDentists] = useState([]);
 
     const fetchBranchDetails = async () => {
         try {
@@ -26,8 +27,18 @@ const BranchDetails = () => {
         }
     };
 
+    const fetchDentists = async () => {
+        try {
+            const {data} = await axios.get(`http://localhost:8080/employee/dentist/findByBranchId?branchId=${id}`);
+            SetDentists(data);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     useEffect(()=>{
         fetchBranchDetails();
+        fetchDentists();
         //console.log(branch)
     }, []);
 
@@ -41,7 +52,33 @@ const BranchDetails = () => {
                         <Image bordered src={dentistPic}/>
                     </Grid.Column>
                     <Grid.Column width={6}>
-                        <Header>This is branch with address {address.buildingNumber} {address.street}</Header>
+                        <Header>Contact</Header>
+                        <p>Phone: 1-800-TOOTH</p>
+                        <p>Address: {address.buildingNumber} {address.street}, {address.city}, {address.province} {address.postalCode}</p>
+
+                        <Header>Our Team</Header>
+                        <List horizontal>
+                            <List.Item>
+                                <Image avatar src='https://cdn.iconscout.com/icon/free/png-256/business-1659524-1410046.png'/>
+                                <List.Content>
+                                    <List.Header>{profile.firstName} {profile.lastName}</List.Header>
+                                    Manager
+                                </List.Content>
+                            </List.Item>
+                            {dentists.map((dentist) => (
+                                <List.Item>
+                                    <Image avatar src='https://cdn.iconscout.com/icon/free/png-256/dentist-1659517-1410039.png'/>
+                                    <List.Content>
+                                        <List.Header>Dr. {dentist.profile.firstName} {dentist.profile.lastName}</List.Header>
+                                        Dentist
+                                    </List.Content>
+                                </List.Item>
+                            ))}
+                        </List>
+
+                        <Header>Procedures</Header>
+
+
                         <BranchReview id={id}/>
                     </Grid.Column>
                 </Grid.Row>

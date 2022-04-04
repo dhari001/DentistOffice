@@ -5,24 +5,33 @@ import {Header, Rating, Segment, Comment, List, Icon} from "semantic-ui-react";
 
 const BranchReview = () => {
     const {id} = useParams();
-
     const [reviews, SetReviews] = useState([]);
+    const [reviewAvgs, SetReviewAvgs] = useState([]);
 
     const fetchReviews = async () => {
         try {
             const {data} = await axios.get(`http://localhost:8080/review/findByBranchId?id=${id}`);
             SetReviews(data);
+
         } catch (err) {
             console.error(err);
         }
     };
 
+    const fetchReviewAverages = async () => {
+        try {
+            const {data} = await axios.get(`http://localhost:8080/review/findAverageByBranchId?id=${id}`)
+            SetReviewAvgs(data);
+            console.log(data.professionalism);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     useEffect(() => {
         fetchReviews();
-        reviews.map((review) => {
-            review.date = new Date(review.date);
-            console.log(review.date.getDate());
-        })
+        fetchReviewAverages()
+
     }, []);
 
     const datify = (dateString) => {
@@ -31,70 +40,28 @@ const BranchReview = () => {
         return (prettyString)
     }
 
-    const averageProfessionalism = () => {
-        let profAvg = 0.0;
-        for (let r in reviews) {
-            profAvg += reviews[r].professionalism;
-        }
-        profAvg /= reviews.length;
-        profAvg = Math.floor(profAvg);
-        return profAvg;
-    }
-
-    const averageCleanliness = () => {
-        let cleanAvg = 0.0;
-        for (let r in reviews) {
-            cleanAvg += reviews[r].cleanliness;
-        }
-        cleanAvg /= reviews.length;
-        cleanAvg = Math.floor(cleanAvg);
-        return cleanAvg;
-    }
-
-    const averageCommunication = () => {
-        let comAvg = 0.0;
-        for (let r in reviews) {
-            comAvg += reviews[r].communication;
-        }
-        comAvg /= reviews.length;
-        comAvg = Math.floor(comAvg);
-        console.log(comAvg)
-        return comAvg;
-    }
-
-    const averageValue = () => {
-        let valAvg = 0.0;
-        for (let r in reviews) {
-            valAvg += reviews[r].value;
-        }
-        valAvg /= reviews.length;
-        valAvg = Math.floor(valAvg);
-        console.log(valAvg)
-        return valAvg;
-    }
-
-
+    console.log(reviewAvgs)
     return (
         <Segment>
             <Header>Rating</Header>
             <List divided verticalAlign='middle'>
                 <List.Item>
-                    <List.Content floated='right'><Rating maxRating={5}/></List.Content>
+                    <List.Content floated='right'><Rating disabled rating={reviewAvgs.professionalism} maxRating={5}/></List.Content>
                     <List.Icon name='handshake outline'/>
                     <List.Content>Professionalism</List.Content>
                 </List.Item>
                 <List.Item>
-                    <List.Content floated='right'><Rating maxRating={5}/></List.Content>
+                    <List.Content floated='right'><Rating disabled rating={reviewAvgs.communication} maxRating={5}/></List.Content>
                     <List.Icon name='talk'/>
                     <List.Content>Communication</List.Content>
                 </List.Item>
                 <List.Item>
-                    <List.Content floated='right'><Rating maxRating={5}/></List.Content>
+                    <List.Content floated='right'><Rating disabled rating={reviewAvgs.cleanliness} maxRating={5}/></List.Content>
                     <List.Icon name='paper plane outline'/>
                     <List.Content>Cleanliness</List.Content>
                 </List.Item>
                 <List.Item>
-                    <List.Content floated='right'><Rating maxRating={5}/></List.Content>
+                    <List.Content floated='right'><Rating disabled rating={reviewAvgs.value} maxRating={5}/></List.Content>
                     <List.Icon name='dollar sign'/>
                     <List.Content>Value</List.Content>
                 </List.Item>
