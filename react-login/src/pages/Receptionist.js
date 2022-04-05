@@ -4,11 +4,12 @@ import AppointmentForm from '../components/AppointmentForm';
 import {Segment} from "semantic-ui-react";
 import Schedule from '../components/Schedule';
 import PatientForm from '../components/PatientForm';
+import EmployeeForm from '../components/EmployeeForm';
 
 function Receptionist() {
 
     //PATIENT
-   const [err, setErr] = useState("")
+    const [err, setErr] = useState("")
     const [successP, setSuccessP] = useState(false);
 
     const AddPatient  = details => {
@@ -46,6 +47,55 @@ function Receptionist() {
             console.log(fN + mN + lN)
             console.log(zip)
             console.log(db)
+        })
+
+
+    }
+
+    const [er, setEr] = useState("")
+    const [successE, setSuccessE] = useState(false);
+
+    //EMPLOYEE
+    const AddEmployee  = details => {
+        var r = details.role
+        var t = details.type
+        var s = parseInt(details.salary)
+        var sin = parseInt(details.ssn)
+        var bId = details.branch
+        var e = details.email
+        var uN = details.username
+        var pwd = details.password
+        var fN = details.firstName
+        var mN = details.middleName
+        var lN = details.lastName
+        var bNum = parseInt(details.buildingNumber)
+        var st = details.street
+        var c = details.city
+        var prov = details.province
+        var zip = details.postalCode
+        var db = details.dob
+        let res = axios.post('http://localhost:8080/employee/create/lite', {role: r, type: t, salary: s, id: "", branchID: bId, profile: {id: "", username: uN, password: pwd, firstName: fN, middleName: mN, lastName: lN, address: {id: "", buildingNumber: bNum, street: st, city: c, province: prov, postalCode: zip}, dob: db}, ssn: sin})
+        .then(res => {
+            console.log(res)
+            if(res.status == 200){
+                setSuccessE(true)
+                console.log(res.status)
+            } else{
+                setSuccessE(false)
+                console.log(res.status)
+                setEr("DID NOT WORK")
+            }
+        }).catch(function(e) {
+            console.log(e)
+            console.log(res.status)
+            console.log(prov)
+            console.log(bNum)
+            console.log(uN, pwd)
+            console.log(fN + mN + lN)
+            console.log(zip)
+            console.log(db)
+            console.log(sin)
+            
         })
 
 
@@ -114,6 +164,11 @@ function Receptionist() {
                 </Segment>
             )}
             
+            <br></br>
+            <Segment raised>
+                    <EmployeeForm AddEmployee={AddEmployee} er={er} />
+                </Segment>
+
             <br></br>
             <div><Segment raised>
             <Schedule/>

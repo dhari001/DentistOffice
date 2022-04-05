@@ -1,33 +1,34 @@
 import React, {useState} from 'react';
 import {Button, Form, Header, Input} from "semantic-ui-react";
 
-function PatientForm({AddPatient, error}){
-    const[details, setDetails] = useState({startTime: "", endTime: "", patientId: "", employeeId: "", type: "", status: "", room: "", branchId: ""});
+function EmployeeForm({AddEmployee, er}){
+    const[details, setDetails] = useState({firstName: "", middleName: "", lastName: "", dob: "", email: "", username: "", password: "", street: "", buildingNumber: "", province: "", city:"", postalCode: "", role: "", type: "", salary: "", branch: "", ssn: ""});
     const options = [
         {key: 1, text: "AB", value: "AB"},
         {key: 2, text: "BC", value: "BC"},
-        {key: 3, text: "MN", value: "MN"},
+        {key: 3, text: "MB", value: "MB"},
         {key: 4, text: "NB", value: "NB"},
         {key: 5, text: "NS", value: "NS"},
-        {key: 6, text: "NL", value: "NL"},
-        {key: 7, text: "NWT", value: "NWT"},
+        {key: 6, text: "NL", value: "NL"}, 
+        {key: 7, text: "NT", value: "NT"},
         {key: 8, text: "ON", value: "ON"},
-        {key: 9, text: "PEI", value: "PEI"},
-        {key: 10, text: "QB", value: "QB"},
+        {key: 9, text: "PE", value: "PE"},
+        {key: 10, text: "QC", value: "QC"},
         {key: 11, text: "SK", value: "SK"},
         {key: 12, text: "YT", value: "YT"},
+        {key: 13, text: "NU", value: "NU"},
 
     ]
     const submitHandler = e => {
         e.preventDefault();
-        AddPatient(details);
+        AddEmployee(details);
         
     }
 
     return (
         <Form onSubmit={submitHandler}>
-            <Header>Add A Patient</Header>
-            {(error != "") ? (<div className="error">{error}</div>) : ""}
+            <Header>Add An Employee</Header>
+            {(er != "") ? (<div className="error">{er}</div>) : ""}
         <Form.Group widths='equal'>
        <Form.Field
         id='firstName'
@@ -54,15 +55,15 @@ function PatientForm({AddPatient, error}){
         id='dob'
         control={Input}
         label="Date Of Birth"
-        placeholder="Date Of Birth" 
+        placeholder="YYYY-MM-DD" 
         onChange={e => setDetails({...details, dob: e.target.value})} value={details.dob}
       />
       <Form.Field
-        id='pId'
+        id='ssn'
         control={Input}
-        label="Patient"
-        placeholder="P_X" 
-        onChange={e => setDetails({...details, pId: e.target.value})} value={details.pId}
+        label="SSN"
+        placeholder="12345" 
+        onChange={e => setDetails({...details, ssn: e.target.value})} value={details.ssn}
       />
       </Form.Group>
       <Form.Group widths='equal'>
@@ -89,19 +90,12 @@ function PatientForm({AddPatient, error}){
       />
     </Form.Group>
     <Form.Group widths='equal'>
-    <Form.Field
-        id='id'
-        control={Input}
-        label='Address ID'
-        placeholder='A_X'
-        onChange={e => setDetails({...details,id: e.target.value})} value={details.id}
-      />
       <Form.Field
         id='street'
         control={Input}
         label='Street Name'
         placeholder='Street'
-        onChange={e => setDetails({...details, password: e.target.value})} value={details.password}
+        onChange={e => setDetails({...details, street: e.target.value})} value={details.street}
       />
        <Form.Field
         id='buildingNumber'
@@ -119,18 +113,49 @@ function PatientForm({AddPatient, error}){
         placeholder='city'
         onChange={e => setDetails({...details, city: e.target.value})} value={details.city}
       />
-      <Form.Select options={options}
-        id='province'
-        label='Province'
-        placeholder='ON'
-        onChange={e => setDetails({...details, province: e.target.value})} value={details.province}
-      />
+       <Form.Field
+      id='province'
+      control={Input}
+      label='Province'
+      placeholder='ON'
+      onChange={e => setDetails({...details, province: e.target.value})} value={details.province}
+    />
     <Form.Field
       id='postalCode'
       control={Input}
       label='Postal Code'
       placeholder='LNL NLN'
       onChange={e => setDetails({...details, postalCode: e.target.value})} value={details.postalCode}
+    />
+    </Form.Group>
+    <Form.Group widths='equal'>
+      <Form.Field
+        id='role'
+        control={Input}
+        label='Role'
+        placeholder='MANAGER'
+        onChange={e => setDetails({...details, role: e.target.value})} value={details.role}
+      />
+       <Form.Field
+      id='type'
+      control={Input}
+      label='Type'
+      placeholder='FT/PT'
+      onChange={e => setDetails({...details, type: e.target.value})} value={details.type}
+    />
+    <Form.Field
+      id='salary'
+      control={Input}
+      label='Salary'
+      placeholder='50 000'
+      onChange={e => setDetails({...details, salary: e.target.value})} value={details.salary}
+    />
+    <Form.Field
+      id='branch'
+      control={Input}
+      label='Branch'
+      placeholder='B_X'
+      onChange={e => setDetails({...details, branch: e.target.value})} value={details.branch}
     />
     </Form.Group>
       <Button type='submit'>Add</Button>
@@ -140,4 +165,4 @@ function PatientForm({AddPatient, error}){
 
 }
 
-export default PatientForm;
+export default EmployeeForm;

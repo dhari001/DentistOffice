@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Form, Header, Input} from "semantic-ui-react";
 
-function PatientForm({AddPatient, error}){
+function PatientForm({AddPatient, err}){
     const[details, setDetails] = useState({firstName: "", middleName: "", lastName: "", dob: "", email: "", username: "", password: "", street: "", buildingNumber: "", province: "", city:"", postalCode: ""});
     const options = [
         {key: 1, text: "AB", value: "AB"},
@@ -28,7 +28,7 @@ function PatientForm({AddPatient, error}){
     return (
         <Form onSubmit={submitHandler}>
             <Header>Add A Patient</Header>
-            {(error != "") ? (<div className="error">{error}</div>) : ""}
+            {(err != "") ? (<div className="error">{err}</div>) : ""}
         <Form.Group widths='equal'>
        <Form.Field
         id='firstName'
@@ -55,7 +55,7 @@ function PatientForm({AddPatient, error}){
         id='dob'
         control={Input}
         label="Date Of Birth"
-        placeholder="Date Of Birth" 
+        placeholder="YYYY-MM-DD" 
         onChange={e => setDetails({...details, dob: e.target.value})} value={details.dob}
       />
       </Form.Group>
