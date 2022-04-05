@@ -1,12 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Form, Header, Image} from "semantic-ui-react";
 
-const options = [
-    {key: 'e', text: 'Employee', value: 'EMPLOYEE'},
-    {key: 'p', text: 'Patient', value: 'PATIENT'},
-    {key: 'r', text: 'Responsible Party', value: 'RESPONSIBLE_PARTY'}
-]
-
 function LoginForm({Login, error}){
     const[details, setDetails] = useState({username: "", password: "", role: ""});
     const submitHandler = e => {
@@ -14,6 +8,13 @@ function LoginForm({Login, error}){
         Login(details);
         
     }
+
+    const options = [
+        {key: "EMPLOYEE", text: "Employee", value: "EMPLOYEE"},
+        {key: "PATIENT", text: "Patient", value: "PATIENT"},
+        {key: "RESPONSIBLE_PARTY", text: "Responsible Party", value: "RESPONSIBLE_PARTY"},
+
+    ]
 
     return (
         <Form onSubmit={submitHandler}>
@@ -28,17 +29,12 @@ function LoginForm({Login, error}){
                     onChange={e => setDetails({...details, username: e.target.value})} value={details.username}>
                 </input>
             </Form.Field>
-            <Form.Select
-                fluid
-                label='Role'
+            <Form.Select options={options}
                 id='role'
-                options={options}
-                placeholder='Role'
-                onChange={(e, data) => setDetails({...details, role: data.value})}
-                value={details.role}
+                label='Role'
+                placeholder='ROLE'
+                onChange={e => setDetails({...details, role: e.target.value})} value={details.role}
             />
-
-
             <Form.Field>
                 <label>Password</label>
                 <input

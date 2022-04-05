@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 import {Button, Form, Header, Input} from "semantic-ui-react";
 
 function AppointmentForm({AddApp, error}){
-    const[details, setDetails] = useState({apptID: "", startT: "", sendT: "", patID: "", empID: "", type: "", status: "", room: "", branch: ""});
+    const[details, setDetails] = useState({startTime: "", endTime: "", patientId: "", employeeId: "", type: "", status: "", room: "", branchId: ""});
     const optionsS = [
-        {key: 1, text: "NO SHOW", value: "NO SHOW"},
-        {key: 2, text: "CANCELLED", value: "CANCELLED"},
-        {key: 3, text: "COMPLETED", value: "COMPLETED"},
-        {key: 4, text: "UNSCHEDULED", value: "UNSCHEDULED"},
-        {key: 5, text: "SCHEDULED", value: "SCHEDULED"},
+        {key: 1, text: "NO SHOW", value: 1},
+        {key: 2, text: "CANCELLED", value: 2},
+        {key: 3, text: "COMPLETED", value: 3},
+        {key: 4, text: "UNSCHEDULED", value: 4},
+        {key: 5, text: "SCHEDULED", value: 5},
 
     ]
     const optionsT = [
-        {key: 1, text: "CLEANING", value: "CLEANING"},
-        {key: 2, text: "FILLING", value: "FILLING"},
-        {key: 3, text: "EXTRACTION", value: "EXTRACTION"},
+        {key: 1, text: "CLEANING", value: 1},
+        {key: 2, text: "FILLING", value: 2},
+        {key: 3, text: "EXTRACTION", value: 3},
 
     ]
     const submitHandler = e => {
@@ -28,42 +28,35 @@ function AppointmentForm({AddApp, error}){
             <Header>Schedule An Appointment</Header>
             {(error != "") ? (<div className="error">{error}</div>) : ""}
         <Form.Group widths='equal'>
-      <Form.Field
-        id='apptID'
-        control={Input}
-        label='Appointment ID'
-        placeholder='Appointment ID'
-        onChange={e => setDetails({...details, apptID: e.target.value})} value={details.apptID}
-      />
        <Form.Field
-        id='startT'
+        id='startTime'
         control={Input}
         label="Start Time"
         placeholder='YYYY-MM-DD, 00:00 a.m.' 
-        onChange={e => setDetails({...details, startT: e.target.value})} value={details.startT}
+        onChange={e => setDetails({...details, startTime: e.target.value})} value={details.startTime}
       />
        <Form.Field
-        id='endT'
+        id='endTime'
         control={Input}
         label="End Time"
         placeholder='YYYY-MM-DD, 00:00 p.m.'
-        onChange={e => setDetails({...details, endT: e.target.value})} value={details.endT}
+        onChange={e => setDetails({...details, endTime: e.target.value})} value={details.endTime}
       />
       </Form.Group>
       <Form.Group widths='equal'>
       <Form.Field
-        id='patID'
+        id='patientId'
         control={Input}
         label='Patient'
         placeholder='P_x'
-        onChange={e => setDetails({...details, patID: e.target.value})} value={details.patID}
+        onChange={e => setDetails({...details, patientId: e.target.value})} value={details.patientId}
       />
       <Form.Field
-        id='empID'
+        id='employeeId'
         control={Input}
         label='Employee'
         placeholder='E_x'
-        onChange={e => setDetails({...details, empID: e.target.value})} value={details.empID}
+        onChange={e => setDetails({...details, employeeId: e.target.value})} value={details.employeeId}
       />
     </Form.Group>
     <Form.Group widths='equal'>
@@ -87,11 +80,11 @@ function AppointmentForm({AddApp, error}){
       onChange={e => setDetails({...details, room: e.target.value})} value={details.room}
     />
     <Form.Field
-      id='branch'
+      id='branchId'
       control={Input}
       label='Branch'
       placeholder='B_1'
-      onChange={e => setDetails({...details, branch: e.target.value})} value={details.branch}
+      onChange={e => setDetails({...details, branchId: e.target.value})} value={details.branchId}
     />
     </Form.Group>
       <Button type='submit'>Add</Button>

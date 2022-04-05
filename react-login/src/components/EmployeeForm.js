@@ -6,17 +6,16 @@ function PatientForm({AddPatient, error}){
     const options = [
         {key: 1, text: "AB", value: "AB"},
         {key: 2, text: "BC", value: "BC"},
-        {key: 3, text: "MB", value: "MB"},
+        {key: 3, text: "MN", value: "MN"},
         {key: 4, text: "NB", value: "NB"},
         {key: 5, text: "NS", value: "NS"},
-        {key: 6, text: "NL", value: "NL"}, //WHAT IS THIS
-        {key: 7, text: "NT", value: "NT"},
+        {key: 6, text: "NL", value: "NL"},
+        {key: 7, text: "NWT", value: "NWT"},
         {key: 8, text: "ON", value: "ON"},
-        {key: 9, text: "PE", value: "PE"},
-        {key: 10, text: "QC", value: "QC"},
+        {key: 9, text: "PEI", value: "PEI"},
+        {key: 10, text: "QB", value: "QB"},
         {key: 11, text: "SK", value: "SK"},
         {key: 12, text: "YT", value: "YT"},
-        {key: 13, text: "NU", value: "NU"},
 
     ]
     const submitHandler = e => {
