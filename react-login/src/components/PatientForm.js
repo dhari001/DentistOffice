@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Form, Header, Input} from "semantic-ui-react";
 
 function PatientForm({AddPatient, error}){
-    const[details, setDetails] = useState({startTime: "", endTime: "", patientId: "", employeeId: "", type: "", status: "", room: "", branchId: ""});
+    const[details, setDetails] = useState({firstName: "", middleName: "", lastName: "", dob: "", email: "", username: "", password: "", street: "", buildingNumber: "", province: "", city:"", postalCode: ""});
     const options = [
         {key: 1, text: "AB", value: "AB"},
         {key: 2, text: "BC", value: "BC"},
@@ -58,13 +58,6 @@ function PatientForm({AddPatient, error}){
         placeholder="Date Of Birth" 
         onChange={e => setDetails({...details, dob: e.target.value})} value={details.dob}
       />
-      <Form.Field
-        id='pId'
-        control={Input}
-        label="Patient"
-        placeholder="P_X" 
-        onChange={e => setDetails({...details, pId: e.target.value})} value={details.pId}
-      />
       </Form.Group>
       <Form.Group widths='equal'>
       <Form.Field
@@ -90,19 +83,12 @@ function PatientForm({AddPatient, error}){
       />
     </Form.Group>
     <Form.Group widths='equal'>
-    <Form.Field
-        id='id'
-        control={Input}
-        label='Address ID'
-        placeholder='A_X'
-        onChange={e => setDetails({...details,id: e.target.value})} value={details.id}
-      />
       <Form.Field
         id='street'
         control={Input}
         label='Street Name'
         placeholder='Street'
-        onChange={e => setDetails({...details, password: e.target.value})} value={details.password}
+        onChange={e => setDetails({...details, street: e.target.value})} value={details.street}
       />
        <Form.Field
         id='buildingNumber'
@@ -120,12 +106,13 @@ function PatientForm({AddPatient, error}){
         placeholder='city'
         onChange={e => setDetails({...details, city: e.target.value})} value={details.city}
       />
-      <Form.Select options={options}
-        id='province'
-        label='Province'
-        placeholder='ON'
-        onChange={e => setDetails({...details, province: e.target.value})} value={details.province}
-      />
+       <Form.Field
+      id='province'
+      control={Input}
+      label='Province'
+      placeholder='ON'
+      onChange={e => setDetails({...details, province: e.target.value})} value={details.province}
+    />
     <Form.Field
       id='postalCode'
       control={Input}

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Form, Header, Input} from "semantic-ui-react";
 
 function AppointmentForm({AddApp, error}){
-    const[details, setDetails] = useState({startTime: "", endTime: "", patientId: "", employeeId: "", type: "", status: "", room: "", branchId: ""});
+    const[details, setDetails] = useState({date: "",startTime: "", endTime: "", patientId: "", employeeId: "", type: "", status: "", room: "", branchId: ""});
     const optionsS = [
         {key: 1, text: "NO SHOW", value: 1},
         {key: 2, text: "CANCELLED", value: 2},
@@ -29,17 +29,24 @@ function AppointmentForm({AddApp, error}){
             {(error != "") ? (<div className="error">{error}</div>) : ""}
         <Form.Group widths='equal'>
        <Form.Field
+        id='date'
+        control={Input}
+        label="Date"
+        placeholder='YYYY-MM-DD' 
+        onChange={e => setDetails({...details, date: e.target.value})} value={details.date}
+      />
+      <Form.Field
         id='startTime'
         control={Input}
         label="Start Time"
-        placeholder='YYYY-MM-DD, 00:00 a.m.' 
+        placeholder='HH:MM:SS' 
         onChange={e => setDetails({...details, startTime: e.target.value})} value={details.startTime}
       />
        <Form.Field
         id='endTime'
         control={Input}
         label="End Time"
-        placeholder='YYYY-MM-DD, 00:00 p.m.'
+        placeholder='HH:MM:SS'
         onChange={e => setDetails({...details, endTime: e.target.value})} value={details.endTime}
       />
       </Form.Group>
