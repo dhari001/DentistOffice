@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, Header, Image} from "semantic-ui-react";
+import {Button, Form, Header} from "semantic-ui-react";
 
 const options = [
     {key: 'e', text: 'Employee', value: 'EMPLOYEE'},
