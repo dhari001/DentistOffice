@@ -7,41 +7,15 @@ const Schedule = () => {
 
     var set;
     const [appt, setappt] = useState([]);
-    //const [search, setSearch] = useState("")
-    const Search = details => {
-        //set = details.empId
-        console.log(details.empId)
-
-    }
-   
-   //var set;
-   /*const submitHandler = e => {
-        e.preventDefault();
-        Search(search);
-        //setDetails(details.empId)
-        //console.log(details.empId)
-        //set = details.empId
-        //return set
-        
-    }*/
-    //console.log(details.empId)
-    //console.log(set)
-
-
-    //var set = details.empId
-    //console.log(set)
-    //const [details, setDetails] = useState({empId:""})
+    const [details, setDetails] = useState({empId:""})
     const getSchedule = ()=> {
-        //var id = submitHandler
+        var id = details.empId
         
-        axios.get('http://localhost:8080/appointment/findByEmployeeId?id='+"P_2").then(res => {
+        axios.get('http://localhost:8080/appointment/findByEmployeeId?id='+id).then(res => {
             setappt(res.data)
             console.log(res.data)
-            //console.log(set)
-            //console.log(search)
         }).catch(function (e){
             console.log(e)
-            //console.log(search)
         });
     }
 
@@ -52,7 +26,20 @@ const Schedule = () => {
 
     return (
         <>
-        <SearchForm Search={Search}/>
+        <Form onSubmit={getSchedule}>
+        <Form.Field>
+            <label>Employee</label>
+            <input
+                type="text"
+                name="empId"
+                id="empId"
+                onChange={e => setDetails({...details, empId: e.target.value})} value={details.empId}>
+            </input>
+        </Form.Field>
+        <Button type='submit'>Search</Button>
+        </Form>
+
+        
 
         <><><h1>Appointment Schedule</h1>
             <Table>
