@@ -13,21 +13,7 @@ function Receptionist() {
     const [successP, setSuccessP] = useState(false);
 
     const AddPatient  = details => {
-        var e = details.email
-        var pId = details.pId
-        var uN = details.username
-        var pwd = details.password
-        var fN = details.firstName
-        var mN = details.middleName
-        var lN = details.lastName
-        var aId = details.id
-        var bNum = parseInt(details.buildingNumber)
-        var st = details.street
-        var c = details.city
-        var prov = details.province
-        var zip = details.postalCode
-        var db = details.dob
-        let res = axios.post('http://localhost:8080/patient/create', {email: e, id: "", profile: {id: "", username: uN, password: pwd, firstName: fN, middleName: mN, lastName: lN, address: {id: "", buildingNumber: bNum, street: st, city: c, province: prov, postalCode: zip}, dob: db}})
+        let res = axios.post('http://localhost:8080/patient/create', {email: details.email, id: "", profile: {id: "", username: details.username, password: details.password, firstName: details.firstName, middleName: details.middleName, lastName: details.lastName, address: {id: "", buildingNumber: parseInt(details.buildingNumber), street: details.street, city: details.city, province: details.province, postalCode: details.postalCode}, dob: details.dob}})
         .then(res => {
             console.log(res)
             if(res.status == 200){
@@ -40,13 +26,6 @@ function Receptionist() {
             }
         }).catch(function(e) {
             console.log(e)
-            console.log(res.status)
-            console.log(prov)
-            console.log(bNum)
-            console.log(uN, pwd)
-            console.log(fN + mN + lN)
-            console.log(zip)
-            console.log(db)
         })
 
 
@@ -57,24 +36,7 @@ function Receptionist() {
 
     //EMPLOYEE
     const AddEmployee  = details => {
-        var r = details.role
-        var t = details.type
-        var s = parseInt(details.salary)
-        var sin = parseInt(details.ssn)
-        var bId = details.branch
-        var e = details.email
-        var uN = details.username
-        var pwd = details.password
-        var fN = details.firstName
-        var mN = details.middleName
-        var lN = details.lastName
-        var bNum = parseInt(details.buildingNumber)
-        var st = details.street
-        var c = details.city
-        var prov = details.province
-        var zip = details.postalCode
-        var db = details.dob
-        let res = axios.post('http://localhost:8080/employee/create/lite', {role: r, type: t, salary: s, id: "", branchID: bId, profile: {id: "", username: uN, password: pwd, firstName: fN, middleName: mN, lastName: lN, address: {id: "", buildingNumber: bNum, street: st, city: c, province: prov, postalCode: zip}, dob: db}, ssn: sin})
+        let res = axios.post('http://localhost:8080/employee/create/lite', {role: details.role, type: details.type, salary: parseInt(details.salary), id: "", branchID: details.branch, profile: {id: "", username: details.username, password: details.password, firstName: details.firstName, middleName: details.middleName, lastName: details.lastName, address: {id: "", buildingNumber: parseInt(details.buildingNumber), street: details.street, city: details.city, province: details.province, postalCode: details.postalCode}, dob: details.dob}, ssn: parseInt(details.ssn)})
         .then(res => {
             console.log(res)
             if(res.status == 200){
@@ -88,13 +50,6 @@ function Receptionist() {
         }).catch(function(e) {
             console.log(e)
             console.log(res.status)
-            console.log(prov)
-            console.log(bNum)
-            console.log(uN, pwd)
-            console.log(fN + mN + lN)
-            console.log(zip)
-            console.log(db)
-            console.log(sin)
             
         })
 
@@ -106,21 +61,7 @@ function Receptionist() {
     const [successA, setSuccessA] = useState(false);
 
     const AddApp = details =>{
-
-        var sT = details.startTime;
-        var eT = details.endTime;
-        var t = parseInt(details.type);
-        var s = parseInt(details.status);
-        var r = details.room;
-        var b = details.branchId;
-        var pat = details.patientId;
-        var emp = details.employeeId;
-        var d = details.date;
-        console.log(t)
-        //take date
-        //take time
-        //add a t in the middle and format that way
-        axios.post("http://localhost:8080/appointment/create", {id: 4, startTime: d+"T"+sT, endTime: d+"T"+eT, type: t, status: s, room: r, branchId: b, employeeId: emp, patientId: pat})
+        axios.post("http://localhost:8080/appointment/create", {id: 4, startTime: details.date+"T"+details.startTime, endTime: details.date+"T"+details.endTime, type: parseInt(details.type), status: parseInt(details.status), room: details.room, branchId: details.branchId, employeeId: details.employeeId, patientId: details.patientId})
         .then(res => {
             console.log(res)
             if(res.status == 200){
@@ -134,14 +75,12 @@ function Receptionist() {
         }).catch(function(e) {
             console.log("ERROR")
             console.log(e)
-            console.log("the type is: " +t)
-            console.log("the status is: " +s)
         })
 
 
     }
+    
     return (
-
         <div className="Receptionist">
             {(successP) ? (
                 <div className="Stay">
@@ -154,6 +93,17 @@ function Receptionist() {
             )} 
              
             <br></br>
+            
+            {(successE) ? (
+                <div className="Stay">
+                    <EmployeeForm/>
+                </div>
+            ): (
+                <Segment raised>
+                    <EmployeeForm AddEmployee={AddEmployee} er={er}/>
+                </Segment>
+            )}
+            <br></br>
             {(successA) ? (
                 <div className="Stay">
                     <AppointmentForm/>
@@ -163,12 +113,6 @@ function Receptionist() {
                     <AppointmentForm AddApp={AddApp} error={error}/>
                 </Segment>
             )}
-            
-            <br></br>
-            <Segment raised>
-                    <EmployeeForm AddEmployee={AddEmployee} er={er} />
-                </Segment>
-
             <br></br>
             <div><Segment raised>
             <Schedule/>
