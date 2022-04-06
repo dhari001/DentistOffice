@@ -23,6 +23,12 @@ const Schedule = () => {
         getSchedule();
     }, []);
 
+    const datify = (dateString) => {
+        const dateFormat = new Date(dateString)
+        const prettyString = dateFormat.getDate()+'-'+dateFormat.getMonth()+'-'+dateFormat.getFullYear();
+        return (prettyString)
+    }
+
 
     return (
         <>
@@ -55,7 +61,7 @@ const Schedule = () => {
                 <Table.Body>
                     {appt.map((ap) => (
                         <Table.Row>
-                            <Table.Cell>{ap.startTime}</Table.Cell>
+                            <Table.Cell>{datify(ap.startTime)}</Table.Cell>
                             <Table.Cell>{ap.room}</Table.Cell>
                             <Table.Cell>{ap.branchId}</Table.Cell>
                             <Table.Cell>{ap.employeeId}</Table.Cell>
