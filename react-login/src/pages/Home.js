@@ -11,14 +11,7 @@ function Home() {
     
 
     const Login = details => {
-        var bool;
-        var un = details.username;
-        var pwd = details.password;
-        var r = details.role;
-        console.log(un)
-        console.log(pwd)
-        console.log(r)
-       axios.post('http://localhost:8080/profile/authenticate',{username: un, password: pwd,  role: r})
+       axios.post('http://localhost:8080/profile/authenticate',{username: details.username, password: details.password,  role: details.role})
         .then(res => {
             if(res.data){
                 setSuccess(true)
@@ -28,7 +21,10 @@ function Home() {
                 console.log(res.data)
                 setError("LogIn Details Are Not Correct")
             }
-        });
+        }).catch(function(e)  {
+            setError("LogIn Details Are Not Correct")
+
+        })
     }
     const Logout = () => {
         setUser({username: "", role: ""});
