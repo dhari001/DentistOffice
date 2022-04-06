@@ -1,143 +1,146 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
+import { Segment, Form, Button, Grid, Input, Select, Header } from 'semantic-ui-react'
 import axios from "axios"
 
-const PatientProfile = (props) => {
+const provinceSelectOptions = [
+    { key: 'ab', text: 'AB', value: 'AB' },
+    { key: 'bc', text: 'BC', value: 'BC' },
+    { key: 'mn', text: 'MN', value: 'MN' },
+    { key: 'nb', text: 'NB', value: 'NB' },
+    { key: 'ns', text: 'NS', value: 'NS' },
+    { key: 'nl', text: 'NL', value: 'NL' },
+    { key: 'nwt', text: 'NWT', value: 'NWT' },
+    { key: 'on', text: 'ON', value: 'ON' },
+    { key: 'pei', text: 'PEI', value: 'BC' },
+    { key: 'qb', text: 'QB', value: 'QB' },
+    { key: 'sk', text: 'SK', value: 'SK' },
+    { key: 'yt', text: 'YT', value: 'YT' }
+]
 
-    const [user, setUser] = useState({
+export default class PatientProfile extends Component {
+
+    state = {
         id: "",
         firstName: "",
         middleName: "",
         lastName: "",
-        addressId: "",
-        dob: ""
-    })
+        buildingNumber: "",
+        street: "",
+        city: "",
+        province: "",
+        postalcode: "",
+        dob: "",
+        mode: ""
+    }
 
-    const componentDidMount = () => {
+    handleModeChange() {
 
-        axios.get('http://localhost:8080/profile/findByUsername', { params: { username: props.username } })
-            .then(res => {
-                const userInfo = res.data;
-                console.log(userInfo);
-                this.setUser({
+        if (this.state.mode == 'view') {
+            this.setState({...this.state, mode: 'modify'})
+        } else if (this.state.mode == 'modify'){
+            this.setState({...this.state, mode: 'view'})
+            console.log("implement sending info to db")
+        }
+
+    }
+
+    componentDidMount() {
+        // get basic profile
+        axios.get('http://localhost:8080/profile/findByUsername', { params: { username: this.props.username } })
+        .then(res1 => {
+
+            const userInfo = res1.data;
+
+            axios.get('http://localhost:8080/address/findByID', { params: { id: userInfo.addressId } })
+            .then(res2 => {
+
+                const address = res2.data;
+
+                this.setState({
                     id: userInfo.id,
-                    furstName: userInfo.firstName,
+                    firstName: userInfo.firstName,
                     middleName: userInfo.middleName,
                     lastName: userInfo.lastName,
-                    addressId: userInfo.addressId,
-                    dob: userInfo.dob
-                });
-                console.log(user)
+                    buildingNumber: address.buildingNumber,
+                    street: address.street,
+                    city: address.city,
+                    province: address.province,
+                    postalcode: address.postalCode,
+                    dob: (userInfo.dob).substring(0, 10),
+                    mode: "view"
+                })
+
+                console.log(this.state)
             })
-    }   
-
-    function hasResParty(age) {
-      if (age <= 15) {
-        return (
-          <>
-          <UserInfoTable tableType="Responsible Party" user=""/>
-          </>
-        )
-      }
+        })
     }
-  
 
-    return (
-        <>
-        {componentDidMount()}
-        <UserInfoTable
-        tableType="Profile"
-        id={user.id}
-        firstname={user.firstname}
-        lastname={user.lastname}
-        address={user.addressId}
-        dob={user.dob}
-        />
-  
-    {hasResParty(15)}
-  
-        </>
-    )
-};
+    render() {
+        return (
+            <>
+            <Segment placeholder>
 
-const UserInfoTable = (props) => {
+                <Form>
+                { this.state.mode === "view" ?
 
-    return (
-        <>
-        <table>
-            <thead>
-                <th>{props.tableType}</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ID</td>
-                    <td>{props.id}</td>
-                </tr>
-                <tr>
-                    <td>First Name</td>
-                    <td>{props.firstname}</td>
-                </tr>
-                <tr>
-                    <td>Last Name</td>
-                    <td>{props.lastname}</td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td>{props.address}</td>
-                </tr>
-                <tr>
-                    <td>Date of Birth</td>
-                    <td>{props.dob}</td>
-                </tr>
-            </tbody>
-        </table>
-        </>
-    )
-    
+                <Grid columns={2} divided stackable>
+                    <Grid.Column width={5} float='right'>
+                        <Header as='h4'>ID</Header>
+                        <p>{(this.state).id}</p>
+                        <Header as='h4'>First Name</Header>
+                        <p>{(this.state).firstName}</p>
+                        <Header as='h4'>Middle Name</Header>
+                        <p>{(this.state).middleName}</p>
+                        <Header as='h4'>Last Name</Header>
+                        <p>{(this.state).lastName}</p>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Header as='h4'>Date of Birth</Header>
+                        <p>{this.state.dob}</p>
+
+                        <Header as='h4'>Address</Header>
+                        <p>{(this.state).buildingNumber} {(this.state).street}, {this.state.city} ({this.state.province})</p>
+
+                        <Header as='h4'>Postal Code</Header>
+                        <p>{(this.state).postalcode}</p>
+                    </Grid.Column>
+
+                </Grid>
+                
+                :
+
+                <Grid columns={2} divided stackable>
+                    <Grid.Column width={5}>
+                        <Form.Field control={Input} label='First Name' value={(this.state).firstName}/>
+                        <Form.Field control={Input} label='Middle Name' value={(this.state).middleName}/>
+                        <Form.Field control={Input} label='Last Name' value={(this.state).lastName}/>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Form.Group>
+                            <Form.Field control={Input} label='Building No.' value={(this.state).buildingNumber} width={3}/>
+                            <Form.Field control={Input} label='Street' value={(this.state).street}/>
+                            <Form.Field control={Input} label='City' value={(this.state).city}/>
+                            <Form.Field control={Select} label='Province' options={provinceSelectOptions} value={(this.state).province} width={1}/>
+                        </Form.Group>
+                        <Form.Field control={Input} label='Postal Code' value={(this.state).postalcode}/>
+                    </Grid.Column>
+
+                    
+                </Grid>
+                
+                }
+
+                </Form>
+
+            </Segment>
+
+            { this.state.mode === 'view' ?
+            <Button onClick={() => this.handleModeChange()}>Modify profile</Button>
+            :
+            <Button onClick={() => this.handleModeChange()}>Save changes</Button>
+            }
+            </>
+        )
+
+    }
 }
-
-const ModPatientProfile = (person) => {
-
-    const [details, setDetails] = useState({firstname: "", lastname: "", phone: "", address: ""});
-
-    return (
-        <>
-        <table>
-            <thead>
-                <th>Profile</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>ID</td>
-                    <td>{person.id}</td>
-                </tr>
-                <tr>
-                    <td>First Name</td>
-                    <td>
-                        <input type="firstname" name="firstname" id="firstname" onChange={e => setDetails({...details, firstname: e.target.value})} value={details.firstname}></input>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Last Name</td>
-                    <td>
-                        <input type="lastname" name="lastname" id="lastname" onChange={e => setDetails({...details, lastname: e.target.value})} value={details.lastname}></input>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Date of Birth</td>
-                    <td>{person.dob}</td>
-                </tr>
-                <tr>
-                    <td>Phone Number</td>
-                    <input type="phone" name="phone" id="phone" onChange={e => setDetails({...details, phone: e.target.value})} value={details.phone}></input>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <input type="address" name="address" id="address" onChange={e => setDetails({...details, address: e.target.value})} value={details.address}></input>
-                </tr>
-            </tbody>
-        </table>
-        </>
-    )
-}
-
-export default PatientProfile
