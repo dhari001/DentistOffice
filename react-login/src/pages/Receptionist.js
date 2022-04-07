@@ -67,6 +67,7 @@ function Receptionist() {
             if(res.status == 200){
                 setSuccessA(true)
                 console.log(res.status)
+                console.log(parseInt(details.type))
             } else{
                 setSuccessA(false)
                 console.log(res.status)

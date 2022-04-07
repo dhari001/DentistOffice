@@ -24,9 +24,11 @@ function Home() {
                 setSuccess(false)
                 console.log(res.data)
                 setError("LogIn Details Are Not Correct")
+                console.log(details.role)
             }
         }).catch(function(e)  {
             setError("LogIn Details Are Not Correct")
+            console.log(details.role)
 
         })
     }
