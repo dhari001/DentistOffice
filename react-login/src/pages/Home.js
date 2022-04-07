@@ -16,6 +16,10 @@ function Home() {
             if(res.data){
                 setSuccess(true)
                 console.log(res.data)
+                setUser({
+                    username: details.username,
+                    role: details.role
+                })
             } else{
                 setSuccess(false)
                 console.log(res.data)
