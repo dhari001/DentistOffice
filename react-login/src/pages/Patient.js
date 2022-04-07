@@ -11,20 +11,13 @@ import MedHistory from '../components/MedHistory'
 //----------- PATIENT VIEW -----------//
 export default class PatientLookUp extends Component {
     state = {
-        loggedInUsername: '',
-        loggedInUserId: ''
+        loggedInUser: {}
     }
 
     componentDidMount() {
-
-        axios.get('http://localhost:8080/profile/findByUsername', {username: this.props.username})
+        axios.get('http://localhost:8080/patient/findByID', { params: {id: 'P_6'} })
             .then(res => {
-                const user = res.data;
-                this.setState({
-                    loggedInUsername: user.username,
-                    loggedInUserId: user.id
-                });
-                console.log(this.state.user)
+                this.setState({loggedInUser: res.data})
             })
     }
 
@@ -33,9 +26,9 @@ export default class PatientLookUp extends Component {
             <div className="Patient">
                 <Tab panes={
                     [
-                        { menuItem: 'Profile', render: () => <Tab.Pane><PatientProfile username='chocoman'/></Tab.Pane> },
-                        { menuItem: 'Appointments', render: () => <Tab.Pane><UpcomingAppt id='P_2'/></Tab.Pane> },
-                        { menuItem: 'Medical History', render: () => <Tab.Pane><MedHistory id='P_2'/></Tab.Pane> }
+                        { menuItem: 'Profile', render: () => <Tab.Pane><PatientProfile profile={this.state.loggedInUser}/></Tab.Pane> },
+                        { menuItem: 'Upcoming Appointments', render: () => <Tab.Pane><UpcomingAppt profile={this.state.loggedInUser}/></Tab.Pane> },
+                        { menuItem: 'Medical History', render: () => <Tab.Pane><MedHistory profile={this.state.loggedInUser}/></Tab.Pane> }
                     ]
                 }/>
             </div>

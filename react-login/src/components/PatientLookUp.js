@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Popup, Segment, Input, Button, Header } from 'semantic-ui-react'
+import { Form, Segment, Input, Button, Header } from 'semantic-ui-react'
 import axios from "axios"
 
 import Patient from '../pages/Patient'

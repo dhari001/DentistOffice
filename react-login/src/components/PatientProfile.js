@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Form, Button, Grid, Input, Select, Header } from 'semantic-ui-react'
+import { Container, Form, Button, Grid, Input, Select, List } from 'semantic-ui-react'
 import axios from "axios"
 
 const provinceSelectOptions = [
@@ -20,18 +20,22 @@ const provinceSelectOptions = [
 export default class PatientProfile extends Component {
 
     state = {
+        didUpdate: false,
         id: "",
+        email: "",
         firstName: "",
         middleName: "",
         lastName: "",
+        addressId: "",
         buildingNumber: "",
         street: "",
         city: "",
         province: "",
         postalcode: "",
         dob: "",
-        mode: ""
+        mode: "view"
     }
+    
 
     handleModeChange() {
 
@@ -45,94 +49,94 @@ export default class PatientProfile extends Component {
     }
 
     componentDidMount() {
-        // get basic profile
-        axios.get('http://localhost:8080/profile/findByUsername', { params: { username: this.props.username } })
-        .then(res1 => {
 
-            const userInfo = res1.data;
-
-            axios.get('http://localhost:8080/address/findByID', { params: { id: userInfo.addressId } })
-            .then(res2 => {
-
-                const address = res2.data;
-
-                this.setState({
-                    id: userInfo.id,
-                    firstName: userInfo.firstName,
-                    middleName: userInfo.middleName,
-                    lastName: userInfo.lastName,
-                    buildingNumber: address.buildingNumber,
-                    street: address.street,
-                    city: address.city,
-                    province: address.province,
-                    postalcode: address.postalCode,
-                    dob: (userInfo.dob).substring(0, 10),
-                    mode: "view"
-                })
-
-                console.log(this.state)
+        try {
+            this.setState({
+                id: (this.props.profile).id,
+                email: (this.props.profile).email,
+                firstName: (this.props.profile).profile.firstName,
+                middleName: (this.props.profile).profile.middleName,
+                lastName: (this.props.profile).profile.lastName,
+                buildingNumber: (this.props.profile).profile.address.buildingNumber,
+                street: (this.props.profile).profile.address.street,
+                city: (this.props.profile).profile.address.city,
+                province: (this.props.profile).profile.address.province,
+                postalcode: (this.props.profile).profile.address.postalCode,
+                dob: (this.props.profile).profile.dob
             })
-        })
+    
+            console.log(this.state)
+        } catch {
+            console.log("waiting on props")
+        }
+    }
+
+    componentDidUpdate() {
+
+        if (this.props.profile != undefined && this.state.didUpdate == false) {
+            this.componentDidMount()
+            this.setState({didUpdate: true})
+        }
     }
 
     render() {
+
         return (
+            
             <>
-            <Segment placeholder>
+            <Container>
 
-                <Form>
                 { this.state.mode === "view" ?
-
-                <Grid columns={2} divided stackable>
+                
+                <Grid columns={2}>
                     <Grid.Column width={5} float='right'>
-                        <Header as='h4'>ID</Header>
-                        <p>{(this.state).id}</p>
-                        <Header as='h4'>First Name</Header>
-                        <p>{(this.state).firstName}</p>
-                        <Header as='h4'>Middle Name</Header>
-                        <p>{(this.state).middleName}</p>
-                        <Header as='h4'>Last Name</Header>
-                        <p>{(this.state).lastName}</p>
+                        <List>
+                            <List.Item header='ID' description={(this.state).id}/>
+                            <List.Item header='First Name' description={(this.state).firstName}/>
+                            <List.Item header='Middle Name' description={(this.state).middleName}/>
+                            <List.Item header='Last Name' description={(this.state).lastName}/>
+                        </List>
+                        
                     </Grid.Column>
                     <Grid.Column>
-                        <Header as='h4'>Date of Birth</Header>
-                        <p>{this.state.dob}</p>
-
-                        <Header as='h4'>Address</Header>
-                        <p>{(this.state).buildingNumber} {(this.state).street}, {this.state.city} ({this.state.province})</p>
-
-                        <Header as='h4'>Postal Code</Header>
-                        <p>{(this.state).postalcode}</p>
+                        <List>
+                            <List.Item header='Date of Birth' description={(this.state).dob}/>
+                            <List.Item header='Address' description={(this.state).buildingNumber+" "+(this.state).street+", "+(this.state).city+" ("+(this.state).province+")"}/>
+                            <List.Item header='Postal Code' description={(this.state).postalcode}/>
+                            <List.Item header='Email' description={(this.state).email}/>
+                        </List>
                     </Grid.Column>
 
                 </Grid>
                 
                 :
-
+                <Form>
                 <Grid columns={2} divided stackable>
                     <Grid.Column width={5}>
-                        <Form.Field control={Input} label='First Name' value={(this.state).firstName}/>
-                        <Form.Field control={Input} label='Middle Name' value={(this.state).middleName}/>
-                        <Form.Field control={Input} label='Last Name' value={(this.state).lastName}/>
+                    <Form.Input label='ID' placeholder={(this.state).id} disabled/>
+                        <Form.Input label='First Name' placeholder={(this.state).firstName}/>
+                        <Form.Input label='Middle Name' placeholder={(this.state).middleName}/>
+                        <Form.Input label='Last Name' placeholder={(this.state).lastName}/>
                     </Grid.Column>
                     <Grid.Column>
                         <Form.Group>
-                            <Form.Field control={Input} label='Building No.' value={(this.state).buildingNumber} width={3}/>
-                            <Form.Field control={Input} label='Street' value={(this.state).street}/>
-                            <Form.Field control={Input} label='City' value={(this.state).city}/>
-                            <Form.Field control={Select} label='Province' options={provinceSelectOptions} value={(this.state).province} width={1}/>
+                            <Form.Input label='Building No.' placeholder={(this.state).buildingNumber} width={3}/>
+                            <Form.Input label='Street' placeholder={(this.state).street}/>
+                            <Form.Input label='City' placeholder={(this.state).city}/>
+                            <Form.Select options={provinceSelectOptions} label='Province' placeholder={(this.state).province} width={1}/>
                         </Form.Group>
-                        <Form.Field control={Input} label='Postal Code' value={(this.state).postalcode}/>
+                        <Form.Input label='Postal Code' placeholder={(this.state).postalcode}/>
+                        <Form.Input label='Email' placeholder={(this.state).email}/>
                     </Grid.Column>
 
-                    
                 </Grid>
+                </Form>
                 
                 }
 
-                </Form>
+            </Container>
 
-            </Segment>
+            <br></br>
 
             { this.state.mode === 'view' ?
             <Button onClick={() => this.handleModeChange()}>Modify profile</Button>
