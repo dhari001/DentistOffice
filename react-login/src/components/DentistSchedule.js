@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {Table, Form, Button} from 'semantic-ui-react'
+import {Table, Form, Button, Segment, Header} from 'semantic-ui-react'
 import axios from "axios";
-import SearchForm from './SearchForm'
 
-const Schedule = () => {
+const DentistSchedule = () => {
 
-    var set;
     const [appt, setappt] = useState([]);
     const [details, setDetails] = useState({empId:""})
     const getSchedule = ()=> {
@@ -32,22 +30,27 @@ const Schedule = () => {
 
     return (
         <>
+        <Segment raised compact padded='very'>
         <Form onSubmit={getSchedule}>
         <Form.Field>
-            <label>Employee</label>
+        <Header as='h3'>Please enter your ID</Header>
             <input
                 type="text"
                 name="empId"
                 id="empId"
-                onChange={e => setDetails({...details, empId: e.target.value})} value={details.empId}>
+                placeholder='P_X'
+                onChange={e => setDetails({...details, empId: e.target.value.trim()})} value={details.empId}>
             </input>
         </Form.Field>
         <Button type='submit'>Search</Button>
         </Form>
 
+        </Segment>
         
 
-        <><><h1>Appointment Schedule</h1>
+        
+
+        <><><h3>Appointment Schedule</h3>
             <Table>
                 <Table.Header>
                     <Table.Row>
@@ -78,4 +81,4 @@ const Schedule = () => {
 }
 
       
-export default Schedule;
+export default DentistSchedule;

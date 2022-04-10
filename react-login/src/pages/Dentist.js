@@ -1,35 +1,63 @@
 import React, { Component } from 'react'
-import { Tab, Form, Button } from 'semantic-ui-react'
+import { Button, Header, Form, Segment, Input } from 'semantic-ui-react'
 import axios from "axios"
-//import { useLocation } from 'react-router'
 
-import PatientProfile from '../components/PatientProfile'
-import MedHistory from '../components/MedHistory'
-import Schedule from '../components/Schedule'
+import DentistTabs from '../components/DentistTabs'
+import DentistSchedule from '../components/DentistSchedule'
 
+export default class Dentist extends Component {
+    constructor(props) {
+        super(props)
 
-//----------- PATIENT VIEW -----------//
-export default class DentistLookUp extends Component {
-    state = {
-        loggedInUser: {},
+        this.state = {
+            valid: false,
+            userId: '',
+            loggedInUser: {}
+        }
+
+        this.handleSubmit=this.handleSubmit.bind(this);
     }
 
-    componentDidMount() {
-        axios.get('http://localhost:8080/patient/findByID', { params: {id: 'P_6'} })
-            .then(res => {
-                this.setState({loggedInUser: res.data})
+    handleSubmit() {
+
+        axios.get('http://localhost:8080/patient/existsByID', { params: {id: this.state.userId} })
+            .then( res => {
+                if (res.data) {
+                    axios.get('http://localhost:8080/patient/findByID', { params: {id: this.state.userId} })
+                    .then(user => {
+                    this.setState({
+                        valid: res.data,
+                        loggedInUser: user.data
+                    })
+                    console.log(this.state)
+                })
+                }
             })
     }
 
     render() {
         return (
-            <><>
-            </><div className="Patient">
-                    <Tab panes={[
-                        { menuItem: 'Profile', render: () => <Tab.Pane><PatientProfile profile={this.state.loggedInUser} /></Tab.Pane> },
-                        { menuItem: 'Medical History', render: () => <Tab.Pane><MedHistory profile={this.state.loggedInUser} /></Tab.Pane> },
-                        { menuItem: 'Schedule', render: () => <Tab.Pane><Schedule /></Tab.Pane> }
-                    ]} />
+            <><div className="Patient">
+                <h1>Patient Look Up</h1>
+                {this.state.valid ?
+                    <DentistTabs loggedInUser={this.state.loggedInUser} />
+                    :
+                    <Segment raised compact padded='very'>
+                        <Header as='h3'>Please enter Patient ID</Header>
+                        <Form>
+                            <Form.Field inline>
+                                <Input placeholder='P_X' onChange={(e) => this.setState({ userId: e.target.value.trim() })} />
+                                <Button content='enter' onClick={this.handleSubmit} />
+                            </Form.Field>
+                        </Form>
+                    </Segment>}
+
+            </div><br></br><br></br><div>
+            <h1>Dentist Look Up</h1>
+                <Segment raised>
+                    <DentistSchedule />
+                </Segment>
+
                 </div></>
         )
     }
