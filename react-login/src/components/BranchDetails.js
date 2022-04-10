@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useParams} from "react-router-dom";
-import {Header, Image, Grid, Rating, Segment, List} from 'semantic-ui-react'
+import {Header, Image, Grid, List} from 'semantic-ui-react'
 import axios from 'axios'
 import BranchReview from './BranchReview'
 import BranchProcedures from "./BranchProcedures";
@@ -12,7 +12,6 @@ const dentistPic = 'https://lipsondentalgroup.com/wp-content/uploads/staff-1-600
 const BranchDetails = () => {
     const {id} = useParams();
 
-    const[branch, SetBranch] = useState({});
     const[profile, SetProfile] = useState({});
     const[address, SetAddress] = useState({});
     const[dentists, SetDentists] = useState([]);
@@ -20,7 +19,6 @@ const BranchDetails = () => {
     const fetchBranchDetails = async () => {
         try {
             const {data} = await axios.get(`http://localhost:8080/branch/findByID?id=${id}`);
-            SetBranch(data);
             SetProfile(data.manager.profile)
             SetAddress(data.address)
         } catch (err) {
