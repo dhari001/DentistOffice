@@ -2,16 +2,22 @@ import React, { Component } from 'react'
 import { Form, Segment, Input, Button, Header } from 'semantic-ui-react'
 import axios from "axios"
 
-import Patient from '../pages/Patient'
+import PatientTabs from '../components/PatientTabs'
 
 export default class PatientLookUp extends Component {
 
-    state = {
-        users: [],
-        searchVal: '',
-        showSearch: true,
-        selectedUser: ''
+    constructor(props) {
+        super(props)
+        this.state = {
+            users: [],
+            searchVal: '',
+            showSearch: true,
+            selectedUser: {}
+        }
+
+        this.handleSearch=this.handleSearch.bind(this);
     }
+    
 
     componentDidMount() {
         axios.get('http://localhost:8080/profile/findAll')
@@ -22,6 +28,23 @@ export default class PatientLookUp extends Component {
                 });
                 console.log(this.state.users)
             })
+    }
+
+    handleSearch(id) {
+
+        console.log("id=", id)
+
+        axios.get('http://localhost:8080/patient/findByID', { params: {id: id} })
+            .then(user => {
+                console.log(user.data)
+                
+                this.setState({
+                    searchVal: '',
+                    showSearch: false,
+                    selectedUser: user.data
+                })
+            })
+            console.log(this.state)
     }
 
     render() {
@@ -46,7 +69,7 @@ export default class PatientLookUp extends Component {
                                     <p>{"Patient ID: "+match.id}</p>
                                     <p>{"Date of Birth: "+(match.dob).substring(0, 10)}</p>
 
-                                    <Button content="see full profile" onClick={() => this.setState({...this.state, showSearch: false, selectedUser: match.username})}/>
+                                    <Button content="see full profile" onClick={() => this.handleSearch(match.id)}/>
                                 </Segment>
                             )})
                         }
@@ -55,8 +78,10 @@ export default class PatientLookUp extends Component {
                 </>)
                 :
                 (<>
-                    <Button content="return to search" onClick={() => this.setState({...this.state, showSearch: true, selectedUser: ''})}/>
-                    <Patient username={this.state.selectedUser}/>
+                    <Button content="return to search" onClick={() => this.setState({...this.state, showSearch: true, selectedUser: {} })}/>
+                    <Segment>
+                        <PatientTabs loggedInUser={this.state.selectedUser}/>
+                    </Segment>
                 </>)
             }
             
