@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import LoginForm from "../components/LoginForm";
-import {Segment} from "semantic-ui-react";
+import {Button, Grid, Header, Segment} from "semantic-ui-react";
 import axios from 'axios';
+import FillerContent from "../components/FillerContent";
 
 function Home() {
 
@@ -38,17 +39,28 @@ function Home() {
     }
 
     return (
-        <div className="Home">
-            {(success) ? (
-                <><div className="Welcome">
-                    <h2>Welcome <span>{user.username}</span></h2><button onClick={Logout}>Logout</button> </div>
-                </>
-            ): (
-                <Segment raised>
-                    <LoginForm Login={Login} error={error}/>
-                </Segment>
-            )}
-        </div>
+            <Grid columns={2}>
+                <Grid.Row></Grid.Row>
+                <Grid.Column width={1}/>
+                <Grid.Column width={10}>
+                    <FillerContent/>
+                </Grid.Column>
+                <Grid.Column width={4}>
+                    {(success) ? (
+                        <><Segment raised>
+                            <Header>Welcome {user.username}!</Header>
+                            <Header></Header>
+                            <Button onClick={Logout}>Logout</Button>
+                        </Segment>
+                        </>
+                    ): (
+                        <Segment raised>
+                            <LoginForm Login={Login} error={error}/>
+                        </Segment>
+                    )}
+                </Grid.Column>
+                <Grid.Column width={1}/>
+            </Grid>
     );
 }
 
