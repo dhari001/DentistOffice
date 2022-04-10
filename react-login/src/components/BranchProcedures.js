@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {Accordion, List, Segment} from "semantic-ui-react";
+import {List} from "semantic-ui-react";
 import {useParams} from "react-router-dom";
 
 const BranchProcedures = () => {

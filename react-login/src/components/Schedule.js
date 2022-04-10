@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Card, Table} from 'semantic-ui-react'
+import {Table} from 'semantic-ui-react'
 import axios from "axios";
 
 const Schedule = () => {
