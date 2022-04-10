@@ -14,7 +14,7 @@ const Main = () => {
             <Route path='/receptionist' element={<Receptionist/>}/>
             <Route path='/dentist' element={<Dentist/>}/>
             <Route path='/patient' element={<Patient/>}/>
-            <Route path='/branch' element={<Branch/>}/>
+            <Route path='/branch/*' element={<Branch/>}/>
         </Routes>
     );
 }

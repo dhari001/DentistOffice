@@ -1,6 +1,4 @@
-import React, {useState} from 'react';
-import LoginForm from './components/LoginForm';
-import {Link} from "react-router-dom";
+import React from 'react';
 import Main from "./components/Main";
 import NavBar from "./components/NavBar";
 

@@ -16,14 +16,13 @@ export default class NavBar extends Component {
         <Menu>
             <Menu.Item
                 header
-                link='true' href='/'
+                href='/'
             > Struck By Whitening
             </Menu.Item>
             <Menu.Item
                 name='editorials'
                 active={activeItem === 'editorials'}
-                onClick={this.handleItemClick}
-                link='true' href='/dentist'
+                onClick={this.handleItemClick} href='/dentist'
             >
                 Dentist
             </Menu.Item>
@@ -31,16 +30,14 @@ export default class NavBar extends Component {
             <Menu.Item
                 name='reviews'
                 active={activeItem === 'reviews'}
-                onClick={this.handleItemClick}
-                link='true' href='/receptionist'
+                onClick={this.handleItemClick} href='/receptionist'
             >
                 Receptionist
             </Menu.Item>
             <Menu.Item
                 name='upcomingEvents'
                 active={activeItem === 'upcomingEvents'}
-                onClick={this.handleItemClick}
-                link='true' href='/patient'
+                onClick={this.handleItemClick} href='/patient'
             >
                 Patient
             </Menu.Item>
@@ -48,8 +45,7 @@ export default class NavBar extends Component {
             <Menu.Item
                 name='upcomingEvents'
                 active={activeItem === 'upcomingEvents'}
-                onClick={this.handleItemClick}
-                link='true' href='/branch'
+                onClick={this.handleItemClick} href='/branch'
             >
                 Branch
             </Menu.Item>

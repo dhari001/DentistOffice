@@ -1,21 +1,9 @@
 import React, { Component } from 'react'
-import { Container, Form, Button, Grid, Input, Select, List } from 'semantic-ui-react'
+import { Container, Button, Grid, List } from 'semantic-ui-react'
 import axios from "axios"
 
-const provinceSelectOptions = [
-    { key: 'ab', text: 'AB', value: 'AB' },
-    { key: 'bc', text: 'BC', value: 'BC' },
-    { key: 'mn', text: 'MN', value: 'MN' },
-    { key: 'nb', text: 'NB', value: 'NB' },
-    { key: 'ns', text: 'NS', value: 'NS' },
-    { key: 'nl', text: 'NL', value: 'NL' },
-    { key: 'nwt', text: 'NWT', value: 'NWT' },
-    { key: 'on', text: 'ON', value: 'ON' },
-    { key: 'pei', text: 'PEI', value: 'BC' },
-    { key: 'qb', text: 'QB', value: 'QB' },
-    { key: 'sk', text: 'SK', value: 'SK' },
-    { key: 'yt', text: 'YT', value: 'YT' }
-]
+import PatientModifyProfileForm from './PatientModifyProfileForm'
+
 
 export default class PatientProfile extends Component {
 
@@ -33,19 +21,36 @@ export default class PatientProfile extends Component {
         province: "",
         postalcode: "",
         dob: "",
-        mode: "view"
+        mode: "view",
+        fullProfile: this.props.profile
     }
     
-
     handleModeChange() {
 
         if (this.state.mode == 'view') {
             this.setState({...this.state, mode: 'modify'})
-        } else if (this.state.mode == 'modify'){
-            this.setState({...this.state, mode: 'view'})
-            console.log("implement sending info to db")
-        }
+        } else if (this.state.mode == 'modify') {
 
+            axios.get('http://localhost:8080/patient/findByID', { params: {id: this.state.id} })
+            .then(user => {
+                const u = user.data
+                this.setState({...this.state,
+                    email: u.email,
+                    firstName: u.profile.firstName,
+                    middleName: u.profile.middleName,
+                    lastName: u.profile.lastName,
+                    buildingNumber: u.profile.address.buildingNumber,
+                    street: u.profile.address.street,
+                    city: u.profile.address.city,
+                    province: u.profile.address.province,
+                    postalcode: u.profile.address.postalCode,
+                    dob: u.profile.dob,
+                    mode: 'view',
+                    fullProfile: user.data
+                })
+
+            })
+        }
     }
 
     componentDidMount() {
@@ -87,7 +92,6 @@ export default class PatientProfile extends Component {
             <Container>
 
                 { this.state.mode === "view" ?
-                
                 <Grid columns={2}>
                     <Grid.Column width={5} float='right'>
                         <List>
@@ -110,28 +114,8 @@ export default class PatientProfile extends Component {
                 </Grid>
                 
                 :
-                <Form>
-                <Grid columns={2} divided stackable>
-                    <Grid.Column width={5}>
-                    <Form.Input label='ID' placeholder={(this.state).id} disabled/>
-                        <Form.Input label='First Name' placeholder={(this.state).firstName}/>
-                        <Form.Input label='Middle Name' placeholder={(this.state).middleName}/>
-                        <Form.Input label='Last Name' placeholder={(this.state).lastName}/>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <Form.Group>
-                            <Form.Input label='Building No.' placeholder={(this.state).buildingNumber} width={3}/>
-                            <Form.Input label='Street' placeholder={(this.state).street}/>
-                            <Form.Input label='City' placeholder={(this.state).city}/>
-                            <Form.Select options={provinceSelectOptions} label='Province' placeholder={(this.state).province} width={1}/>
-                        </Form.Group>
-                        <Form.Input label='Postal Code' placeholder={(this.state).postalcode}/>
-                        <Form.Input label='Email' placeholder={(this.state).email}/>
-                    </Grid.Column>
-
-                </Grid>
-                </Form>
                 
+                <PatientModifyProfileForm currProfile={this.state.fullProfile}/>
                 }
 
             </Container>
@@ -141,7 +125,7 @@ export default class PatientProfile extends Component {
             { this.state.mode === 'view' ?
             <Button onClick={() => this.handleModeChange()}>Modify profile</Button>
             :
-            <Button onClick={() => this.handleModeChange()}>Save changes</Button>
+            <Button onClick={() => this.handleModeChange()}>Return to profile</Button>
             }
             </>
         )
