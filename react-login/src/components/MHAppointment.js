@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, List, Grid, Table } from 'semantic-ui-react'
+import { List, Grid, Table } from 'semantic-ui-react'
 import axios from "axios"
 
 export default class MHAppointment extends Component {
@@ -86,12 +86,20 @@ export default class MHAppointment extends Component {
 
     render() {
         return(<>
-        <List horizontal>
-            <List.Item header='Date' description={this.state.date.substring(0, 10)}/>
-            <List.Item header='Location' description={this.state.address}/>
-            <List.Item header='Patient' description={this.state.patient}/>
-            <List.Item header='Attending Staff' description={this.state.staff}/>
-        </List>
+        <Grid columns={4}>
+            <Grid.Column>
+                <List><List.Item header='Date' description={this.state.date.substring(0, 10)}/></List>
+            </Grid.Column>
+            <Grid.Column>
+                <List><List.Item header='Location' description={this.state.address}/></List>
+            </Grid.Column>
+            <Grid.Column>
+                <List><List.Item header='Patient' description={this.state.patient}/></List>
+            </Grid.Column>
+            <Grid.Column>
+                <List><List.Item header='Attending Staff' description={this.state.staff}/></List>
+            </Grid.Column>
+        </Grid>
 
         <Table celled structured>
             <Table.Header>

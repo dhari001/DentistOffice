@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Segment, Grid } from 'semantic-ui-react'
+import { Segment } from 'semantic-ui-react'
 import axios from "axios"
 
 import MHAppointment from '../components/MHAppointment'
@@ -9,7 +9,6 @@ export default class MedHistory extends Component {
     state = {
         didUpdate: false,
         appointments: [],
-        display: '', // 'summary' -> list of appointments is being displayed; 'full' -> viewing more info about specified appointment
         displayedAppt: {}
     }
 
@@ -20,8 +19,7 @@ export default class MedHistory extends Component {
                 const app = app_res.data;
                 console.log(app);
                 this.setState({
-                    appointments: app,
-                    display: 'summary'
+                    appointments: app
                 })
             })
     }
@@ -36,11 +34,11 @@ export default class MedHistory extends Component {
     render() {
         return (
             <>
-            { this.state.appts != [] ?
+            { this.state.appts !== [] && this.state.appts !== undefined ?
 
             this.state.appointments.map(appt => { return (
                 <Segment key={appt.id}>
-                    <MHAppointment appt={appt} apptDisplay='summary'/>
+                    <MHAppointment appt={appt}/>
                 </Segment>
             )
 
@@ -49,6 +47,7 @@ export default class MedHistory extends Component {
             :
             
             <p>Patient has no medical history.</p>
+            
             }
             </>
         )
