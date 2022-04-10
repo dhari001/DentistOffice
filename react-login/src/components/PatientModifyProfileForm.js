@@ -33,9 +33,19 @@ const PatientModifyProfileForm = (props) => {
         postalCode: props.currProfile.profile.address.postalCode
     })
 
-    const [error, setError] = useState(false)
+    /* error determines whether a message displays
+     * 0 -> no message
+     * -1 -> error message
+     * 1 -> success message
+    */
+    const [error, setError] = useState(0)
 
+    /* checks the validity of all information
+     * true -> all given information is valid
+     * false -> if otherwise
+     */
     const formIsValid = () => {
+
         const numeric = /[0-9]+/
         const alphabetic = /([a-zA-Z]+[-\s]?)*[a-zA-Z]+/
 
@@ -72,7 +82,7 @@ const PatientModifyProfileForm = (props) => {
         }
 
         // check dob
-        const dobRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
+        const dobRegex = /[0-9]{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[0-1])/
         if (!dobRegex.test(newProfile.dob) && newProfile.dob != '') {
             return false
         } else if (newProfile.dob == '') {
@@ -100,7 +110,7 @@ const PatientModifyProfileForm = (props) => {
             setNewProfile({...newProfile, postalCode: props.currProfile.profile.address.postalCode})
         }
         
-        setError(false)
+        setError(1)
         return true
     }
 
@@ -141,23 +151,17 @@ const PatientModifyProfileForm = (props) => {
                 console.log(newProfile)
             })
 
-            
         } else { // inputted info is not valid
-            setError(true)
+            setError(-1)
         }
 
     }
-
-    const updatePatient = () => {
-        // updating patient info
-        
-    }
-    
 
     return (<>
     <Form>
         <Form.Group widths='equal'>
             <Form.Field
+                required
                 id='firstName'
                 control={Input}
                 label="First Name"
@@ -173,6 +177,7 @@ const PatientModifyProfileForm = (props) => {
                 onChange={e => setNewProfile({...newProfile, middleName: e.target.value})} value={newProfile.middleName}
             />
             <Form.Field
+                required
                 id='lastName'
                 control={Input}
                 label="Last Name"
@@ -184,6 +189,7 @@ const PatientModifyProfileForm = (props) => {
 
         <Form.Group widths='equal'>
             <Form.Field
+                required
                 id='dob'
                 control={Input}
                 label="Date Of Birth"
@@ -193,6 +199,7 @@ const PatientModifyProfileForm = (props) => {
                 maxLength={10}
             />
             <Form.Field
+                required
                 id='email'
                 control={Input}
                 label='Email'
@@ -219,6 +226,7 @@ const PatientModifyProfileForm = (props) => {
                 disabled
             />
             <Form.Field
+                required
                 id='password'
                 control={Input}
                 label='Password'
@@ -229,6 +237,7 @@ const PatientModifyProfileForm = (props) => {
 
         <Form.Group>
             <Form.Field
+                required
                 id='postalCode'
                 control={Input}
                 label='Postal Code'
@@ -239,6 +248,7 @@ const PatientModifyProfileForm = (props) => {
                 width={2}
             />
             <Form.Field
+                required
                 id='buildingNumber'
                 control={Input}
                 label='Building Number'
@@ -248,14 +258,16 @@ const PatientModifyProfileForm = (props) => {
                 width={2}
             />
             <Form.Field
+                required
                 id='street'
                 control={Input}
-                label='Street Name'
+                label='Street'
                 placeholder='Street Name'
                 onChange={e => setNewProfile({...newProfile, street: e.target.value})} value={newProfile.street}
                 width={5}
             />
             <Form.Field
+                required
                 id='city'
                 control={Input}
                 label='City'
@@ -264,6 +276,7 @@ const PatientModifyProfileForm = (props) => {
                 width={4}
             />
             <Form.Field
+                required
                 id='province'
                 control={Select}
                 options={provinceSelectOptions}
@@ -277,12 +290,18 @@ const PatientModifyProfileForm = (props) => {
             
         </Form.Group>
 
-        {error &&
+        { error == -1 &&
             <>
             <Form error><Message error header='Error!' content='Please review the inputted information.'/></Form>
             <br/>
             </>
-            
+        }
+
+        { error == 1 &&
+            <>
+            <Form success><Message success header='Success!' content='Your information has been updated. **Note: if required fields(*) are left blank, information for those fields remain the same.'/></Form>
+            <br/>
+            </>
         }
 
         <Button type='submit' content='Save changes' onClick={handleSubmit}/>

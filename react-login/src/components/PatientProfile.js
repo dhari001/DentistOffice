@@ -114,7 +114,7 @@ export default class PatientProfile extends Component {
                 
                 :
                 
-                <PatientModifyProfileForm currProfile={this.props.profile}/>
+                <PatientModifyProfileForm currProfile={this.state.fullProfile}/>
 
                 }
 
